@@ -9,15 +9,14 @@ RUN apt-get -y update && apt-get -y install wget && \
     mkdir /root/mfs && cp /var/lib/mfs/metadata.mfs.empty /root/mfs && \
     cp /etc/mfs/mfsexports.cfg.dist /root/mfs && \
     cp /var/lib/mfs/metadata.mfs.empty /var/lib/mfs/metadata.mfs && \
-    cp /etc/mfs/mfsexports.cfg.dist /etc/mfs/mfsexports.cfg && \
     cp /etc/mfs/mfsmaster.cfg.dist /etc/mfs/mfsmaster.cfg && \
-    echo "172.17.0.0/24 / rw,alldirs,maproot=0" >> /etc/mfs/mfsexports.cfg && \
-    echo "10.0.0.0/16 / rw,alldirs,maproot=0" >> /etc/mfs/mfsexports.cfg && \
     sed -i 's/LIZARDFSMASTER_ENABLE=false/LIZARDFSMASTER_ENABLE=true/g'  /etc/default/lizardfs-master
 
 EXPOSE 9419 9420 9421 9425
 
 VOLUME /var/lib/mfs
+
+ENV ALLOWRW '172.16.0.0/12'
 
 ADD run.sh /
 

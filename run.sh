@@ -6,7 +6,11 @@ then
 fi
 
 cp /root/mfs/mfsexports.cfg.dist /etc/mfs/mfsexports.cfg
-echo "172.16.0.0/12 / rw,alldirs,maproot=0" >> /etc/mfs/mfsexports.cfg
-echo "10.0.0.0/16 / rw,alldirs,maproot=0" >> /etc/mfs/mfsexports.cfg
+perms=$( echo $ALLOWRW | tr ";" "\n" )
+for perm in $perms
+do
+  echo "Allow access to network $perm"
+  echo "$perm / rw,alldirs,maproot=0" >>/etc/mfs/mfsexports.cfg
+done
 
 mfsmaster -d start
