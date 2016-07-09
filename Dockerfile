@@ -1,12 +1,13 @@
-FROM      ubuntu:14.04
-MAINTAINER Lakshmi Narasimhan <badri.dilbert@gmail.com>
+FROM      debian:latest
+MAINTAINER Dmitrii Zolotov <dzolotov@herzen.spb.ru>
 
 RUN apt-get -y update && apt-get -y install wget && \
     wget http://packages.lizardfs.com/lizardfs.key && apt-key add lizardfs.key && \
-    echo "deb http://packages.lizardfs.com/ubuntu/trusty trusty main" > /etc/apt/sources.list.d/lizardfs.list && \
-    echo "deb-src http://packages.lizardfs.com/ubuntu/trusty trusty main" >> /etc/apt/sources.list.d/lizardfs.list && \
+    echo "deb http://packages.lizardfs.com/debian/jessie jessie main" > /etc/apt/sources.list.d/lizardfs.list && \
+    echo "deb-src http://packages.lizardfs.com/debian/jessie jessie main" >> /etc/apt/sources.list.d/lizardfs.list && \
     apt-get -y update && apt-get -y install lizardfs-master && \
-    mkdir -p /var/lib/mfs && \
+    mkdir /root/mfs && cp /var/lib/mfs/metadata.mfs.empty /root/mfs && \
+    cp /etc/mfs/mfsexports.cfg.dist /root/mfs && \
     cp /var/lib/mfs/metadata.mfs.empty /var/lib/mfs/metadata.mfs && \
     cp /etc/mfs/mfsexports.cfg.dist /etc/mfs/mfsexports.cfg && \
     cp /etc/mfs/mfsmaster.cfg.dist /etc/mfs/mfsmaster.cfg && \
@@ -18,4 +19,6 @@ EXPOSE 9419 9420 9421 9425
 
 VOLUME /var/lib/mfs
 
-ENTRYPOINT  ["mfsmaster", "-d", "start"]
+ADD run.sh /
+
+CMD [ "/run.sh" ]
