@@ -23,8 +23,12 @@ done
 IFS=';'
 for perm in $PERMISSIONS
 do
-   echo "Add rule $perm"
-   echo "$perm" >>/etc/mfs/mfsexports.cfg
+   $permt = `echo $perm | xargs`    #trim
+   if [ $permt != '' ]
+   then
+     echo "Add rule $perm"
+     echo "$perm" >>/etc/mfs/mfsexports.cfg
+   fi
 done
 
 mfsmetarestore -a
