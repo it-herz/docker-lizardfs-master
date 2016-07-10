@@ -20,11 +20,31 @@ do
   echo "$perm / ro,alldirs,maproot=0" >>/etc/mfs/mfsexports.cfg
 done
 
-perms=$( echo $PERMISSIONS | tr ";" "\n" )
-for perm in $perms
+IFS=';;;;'
+envs=(`cat /proc/1/environ | xargs -0 -n 1 echo ';;;;'`)
+unset IFS
+
+cd /etc/php/7.0/fpm/conf.d
+for _curVar in "${envs[@]}"
 do
-  echo "Add rule $perm"
-  echo "$perm" >>/etc/mfs/mfsexports.cfg
+    value=`echo "$_curVar" | awk -F = '{print $2}'`
+    name=`echo "$_curVar" | awk -F = '{print $1}' | xargs`
+    if [ "$name" == "" ]
+    then
+      continue
+    fi
+    if [ "$name" == "PERMISSIONS" ] 
+    then
+      perms=$( echo $value | tr ";" "\n" )
+      for perm in $perms
+      do
+       echo "Add rule $perm"
+       echo "$perm" >>/etc/mfs/mfsexports.cfg
+     done
+    fi
 done
 
+
+
+mfsmetarestore -a
 mfsmaster -d start
