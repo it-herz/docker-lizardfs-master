@@ -24,7 +24,6 @@ IFS=';;;;'
 envs=(`cat /proc/1/environ | xargs -0 -n 1 echo ';;;;'`)
 unset IFS
 
-cd /etc/php/7.0/fpm/conf.d
 for _curVar in "${envs[@]}"
 do
     value=`echo "$_curVar" | awk -F = '{print $2}'`
@@ -35,16 +34,17 @@ do
     fi
     if [ "$name" == "PERMISSIONS" ] 
     then
-      perms=$( echo $value | tr ";" "\n" )
+      echo "PERMS Variable: $perms"
+      IFS=';'
+      perms=$( echo $value )
       for perm in $perms
       do
        echo "Add rule $perm"
        echo "$perm" >>/etc/mfs/mfsexports.cfg
      done
+     unset IFS
     fi
 done
-
-
 
 mfsmetarestore -a
 mfsmaster -d start
