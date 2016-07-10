@@ -23,7 +23,7 @@ done
 IFS=';'
 for perm in $PERMISSIONS
 do
-   $permt = "`echo $perm | xargs`"  #trim
+   $permt="`echo $perm | xargs`"  #trim
    echo "Apply $permt"
    if [ ! -z "$permt" ]
    then
