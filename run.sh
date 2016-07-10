@@ -27,27 +27,5 @@ do
    echo "$perm" >>/etc/mfs/mfsexports.cfg
 done
 
-
-#IFS=';;;;'
-#envs=(`cat /proc/1/environ | xargs -0 -n 1 echo ';;;;'`)
-#unset IFS
-
-#for _curVar in "${envs[@]}"
-#do
-#    value=`echo "$_curVar" | awk -F = '{print $2}'`
-#    name=`echo "$_curVar" | awk -F = '{print $1}' | xargs`
-#    if [ "$name" == "" ]
-#    then
-#      continue
-#    fi
-#    if [ "$name" == "PERMISSIONS" ] 
-#    then
-#      echo "PERMS Variable: $perms"
-#      IFS=';'
-#      perms=$( echo $value )
-#     unset IFS
-#    fi
-#done
-
 mfsmetarestore -a
 mfsmaster -d start
