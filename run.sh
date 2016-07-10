@@ -23,8 +23,9 @@ done
 IFS=';'
 for perm in $PERMISSIONS
 do
-   $permt = `echo $perm | xargs`    #trim
-   if [ $permt != '' ]
+   $permt = "`echo $perm | xargs`"  #trim
+   echo "Apply $permt"
+   if [ ! -z "$permt" ]
    then
      echo "Add rule $perm"
      echo "$perm" >>/etc/mfs/mfsexports.cfg
