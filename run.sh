@@ -3,6 +3,8 @@ chown mfs:mfs -R /var/lib/mfs
 if [ ! -f /var/lib/mfs/metadata.mfs ]
 then
   cp /root/mfs/metadata.mfs.empty /var/lib/mfs/metadata.mfs
+else
+  mfsmetarestore -a
 fi
 
 cp /root/mfs/mfsexports.cfg.dist /etc/mfs/mfsexports.cfg
@@ -31,5 +33,4 @@ do
 
 done
 
-mfsmetarestore -a
 mfsmaster -d start
