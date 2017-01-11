@@ -30,7 +30,11 @@ do
      echo "Add rule $perm"
      echo "$perm" >>/etc/mfs/mfsexports.cfg
    fi
-
 done
+
+if [ "$SHADOW" == "1" ]
+then
+  echo "PERSONALITY=shadow" >>/etc/default/lizardfs-master
+fi
 
 mfsmaster -d start
