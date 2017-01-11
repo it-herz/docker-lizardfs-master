@@ -34,7 +34,11 @@ done
 
 if [ "$SHADOW" = "1" ]
 then
-  echo "PERSONALITY=shadow" >>/etc/mfs/lizardfs-master
+  if [ `cat /etc/mfs/mfsmaster.cfg | grep PERSONALITY=shadow` ]
+  then
+    echo "MASTERHOST=mfsmaster" >>/etc/mfs/mfsmaster.cfg
+    echo "PERSONALITY=shadow" >>/etc/mfs/mfsmaster.cfg
+  fi
 fi
 
 mfsmaster -d start
