@@ -34,7 +34,7 @@ done
 
 if [ "$SHADOW" = "1" ]
 then
-  echo "PERSONALITY=shadow" >>/etc/default/lizardfs-master
+  echo "PERSONALITY=shadow" >>/etc/mfs/lizardfs-master
 fi
 
 mfsmaster -d start
