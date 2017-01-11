@@ -34,7 +34,7 @@ done
 
 if [ "$SHADOW" = "1" ]
 then
-  if [ `cat /etc/mfs/mfsmaster.cfg | grep PERSONALITY=shadow` ]
+  if [ ! `cat /etc/mfs/mfsmaster.cfg | grep PERSONALITY=shadow` ]
   then
     echo "MASTERHOST=mfsmaster" >>/etc/mfs/mfsmaster.cfg
     echo "PERSONALITY=shadow" >>/etc/mfs/mfsmaster.cfg
